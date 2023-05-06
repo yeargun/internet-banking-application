@@ -1,0 +1,28 @@
+.fileMetadata {
+  font-size: 0.7rem;
+}
+
+.fileMetadataWrapper {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+/* ##### */
+.removeButton {
+  user-select: none;
+  background-color: rgba(255, 255, 255, 0.077);
+  border-radius: 20%;
+  border: rgba(255, 0, 0, 0.29) 1px solid;
+  font-size: 1.1rem;
+  color: white;
+  -webkit-text-stroke: 1px rgba(255, 0, 0, 0.666);
+}
+
+.removeButton:hover {
+  background-color: rgba(255, 0, 0, 0.21);
+}
+
+.removeButton:active {
+  border: rgba(255, 0, 0, 0.89) 1px solid;
+}
+/* ##### */

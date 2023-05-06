@@ -1,0 +1,9 @@
+.feedWrapper {
+  position: absolute;
+  left: 30%;
+  top: 0;
+  height: 100%;
+  background-color: rgb(249, 227, 227);
+  width: 35%;
+  padding: 2%;
+}

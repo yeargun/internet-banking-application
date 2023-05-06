@@ -1,0 +1,12 @@
+.question {
+  /* display: flex; */
+  /* padding-top: 6vh; */
+  min-width: 50%;
+  max-width: 85%;
+  min-height: 60%;
+  max-height: 300%;
+  margin: 0px;
+
+  /* height: 94vh; */
+  margin: auto;
+}

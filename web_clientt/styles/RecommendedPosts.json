@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "text": "Software engineering is all about building things that work. It's about creating systems that are reliable, efficient, and easy to maintain. #softwareengineering #systemsdesign",
+    "likes": 5234,
+    "reposts": 1234,
+    "username": "john_doe",
+    "timestamp": "2020-01-01T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "text": "Good system design is all about balance. It's about finding the right trade-offs between performance, scalability, and maintainability. #softwareengineering #systemsdesign",
+    "likes": 4123,
+    "reposts": 987,
+    "username": "jane_doe",
+    "timestamp": "2020-01-02T12:00:00Z"
+  },
+  {
+    "id": 3,
+    "text": "As a software engineer, it's important to always be learning and staying up-to-date with the latest technologies and best practices. #softwareengineering #learning",
+    "likes": 3567,
+    "reposts": 654,
+    "username": "john_doe",
+    "timestamp": "2020-01-03T12:00:00Z"
+  },
+  {
+    "id": 4,
+    "text": "Design patterns are a great way to solve common problems in software engineering. They provide a common language and a set of proven solutions that can be easily understood and reused. #softwareengineering #designpatterns",
+    "likes": 3098,
+    "reposts": 543,
+    "username": "jane_doe",
+    "timestamp": "2020-01-04T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "text": "Testing is a crucial part of software engineering. It helps us ensure that our systems are reliable and working as intended. #softwareengineering #testing",
+    "likes": 2567,
+    "reposts": 432,
+    "username": "john_doe",
+    "timestamp": "2020-01-05T12:00:00Z"
+  },
+  {
+    "id": 6,
+    "text": "Agile development is a popular approach to software engineering that emphasizes flexibility and rapid iteration. It's all about delivering working software as quickly as possible. #softwareengineering #agile",
+    "likes": 2345,
+    "reposts": 321,
+    "username": "jane_doe",
+    "timestamp": "2020-01-06T12:00:00Z"
+  },
+  {
+    "id": 7,
+    "text": "Software engineering is more than just writing code. It's about understanding the problem you're trying to solve and finding the best solution. #softwareengineering #problem solving",
+    "likes": 1876,
+    "reposts": 210,
+    "username": "john_doe",
+    "timestamp": "2020-01-07T12:00:00Z"
+  }
+]

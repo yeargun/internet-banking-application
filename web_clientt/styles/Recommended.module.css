@@ -1,0 +1,9 @@
+.recommendedWrapper {
+  background-color: rgb(230, 210, 249);
+  position: absolute;
+  width: 20%;
+  left: 65%;
+  top: 0;
+  height: 60%;
+  padding: 2%;
+}

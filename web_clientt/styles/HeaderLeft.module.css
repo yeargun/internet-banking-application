@@ -1,0 +1,22 @@
+/* .header {
+  font-size: large;
+} */
+
+.headerWrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background-color: rgb(237, 252, 252);
+}
+
+.tabs {
+  position: relative;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 55%;
+  background-color: rgb(210, 252, 229);
+  float: right;
+}
