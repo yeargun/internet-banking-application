@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
 import authReducer from "../features/auth/authSlice";
-import questionReducer from "../features/question/questionSlice";
+import accountReducer from "../features/account/accountSlice";
+import transactionReducer from "../features/transaction/transactionSlice";
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
-    question: questionReducer,
+    account: accountReducer,
+    transaction: transactionReducer,
   },
-  //put saga here maybe
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
   devTools: true,

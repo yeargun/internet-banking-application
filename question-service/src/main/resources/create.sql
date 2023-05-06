@@ -53,6 +53,7 @@ create table Person (
   `id_number` VARCHAR(25) unique not null,
   `name` VARCHAR(50) not null,
   `surname` VARCHAR(50) not null,
+    `gender` VARCHAR(50) not null,
   `email` VARCHAR(254) not null unique,
   `password` VARCHAR(100) not null,
   `phone_number` VARCHAR(20) not null unique,
@@ -80,7 +81,6 @@ create table Accountt (
   `creation_time` TIMESTAMP NOT NULL DEFAULT NOW(), 
   `account_type_id` BINARY(16) NOT NULL, #
   `person_id` BINARY(16) NOT NULL, #
-  `gender` VARCHAR(25) not null,
    PRIMARY KEY (`id`),
    FOREIGN KEY(`currency_id`) REFERENCES Currency(`id`),
    FOREIGN KEY(`account_type_id`) REFERENCES AccountType(`id`),
@@ -266,7 +266,7 @@ CREATE PROCEDURE insert_branch (
 delimiter ;
 
 
-########
+
 
 
 delimiter //
@@ -274,6 +274,7 @@ CREATE PROCEDURE insert_person (
 	IN _id_number VARCHAR(25),
     IN _name VARCHAR(70),
 	IN _surname VARCHAR(50),
+    IN _gender VARCHAR(50),
     IN _email VARCHAR(254),
     IN _password VARCHAR(55),
     IN _phone_number VARCHAR(20),
@@ -283,12 +284,12 @@ CREATE PROCEDURE insert_person (
 		DECLARE registered_branch_id BINARY(16);
         SELECT id INTO registered_branch_id FROM Branch WHERE code = UPPER(_registered_branch_code);
 		
-		INSERT INTO Person(id_number, name, surname, email, password, phone_number, registered_branch_id)
-        values (_id_number, _name, _surname, _email, _password, _phone_number, registered_branch_id);
+		INSERT INTO Person(id_number, name, surname, gender, email, password, phone_number, registered_branch_id)
+        values (_id_number, _name, _surname, gender, _email, _password, _phone_number, registered_branch_id);
 	END//
 delimiter ;
 
-########
+
 
 
 delimiter //
@@ -330,7 +331,6 @@ delimiter //
 CREATE PROCEDURE insert_account (
 	IN _IBAN VARCHAR(34),
     IN _balance VARCHAR(70),
-	IN _gender VARCHAR(50),
     IN _person_id_number VARCHAR(25),
     IN _currency_symbol VARCHAR(6),
     IN _account_type_name VARCHAR(50)
@@ -344,8 +344,8 @@ CREATE PROCEDURE insert_account (
 		SELECT id INTO currency_id FROM Currency WHERE symbol = UPPER(_currency_symbol);
         SELECT id INTO account_type_id FROM AccountType WHERE name = UPPER(_account_type_name);
         
-		INSERT INTO Accountt(IBAN, balance, gender, person_id, currency_id, account_type_id )
-        values (_IBAN, _balance, UPPER(_gender), person_id, currency_id, account_type_id);
+		INSERT INTO Accountt(IBAN, balance, person_id, currency_id, account_type_id )
+        values (_IBAN, _balance, person_id, currency_id, account_type_id);
 	END//
 delimiter ;
 

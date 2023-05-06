@@ -18,6 +18,7 @@ specifiers:
   next: 13.1.6
   react: 18.2.0
   react-dom: 18.2.0
+  react-json-pretty: ^2.2.0
   react-markdown: ^8.0.7
   react-redux: ^8.0.5
   redux-saga: ^1.2.2
@@ -44,6 +45,7 @@ dependencies:
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-json-pretty: 2.2.0_biqbaboplfbrettd7655fr4n2y
   react-markdown: 8.0.7_pmekkgnqduwlme35zpnqhenc34
   react-redux: 8.0.5_3xleytyzprlgycb2ded54tx72i
   redux-saga: 1.2.2
@@ -2972,6 +2974,17 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-json-pretty/2.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-3UMzlAXkJ4R8S4vmkRKtvJHTewG4/rn1Q18n0zqdu/ipZbUPLVZD+QwC7uVcD/IAY3s8iNVHlgR2dMzIUS0n1A==}
+    peerDependencies:
+      react: '>=15.0'
+      react-dom: '>=15.0'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-markdown/8.0.7_pmekkgnqduwlme35zpnqhenc34:
