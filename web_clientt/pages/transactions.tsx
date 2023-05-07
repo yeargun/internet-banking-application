@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useGetAllTransactionsMutation } from "features/transaction/transactionApiSlice";
 import JSONPretty from "react-json-pretty";
 
-function Accounts() {
+function TransactionHistory() {
   const [getAllTransactions, { isLoading }] = useGetAllTransactionsMutation();
   const [allTransactions, setAllTransactions] = useState();
 
@@ -30,4 +30,4 @@ function Accounts() {
   );
 }
 
-export default Accounts;
+export default TransactionHistory;

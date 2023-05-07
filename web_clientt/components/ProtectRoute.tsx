@@ -9,18 +9,20 @@ export const ProtectRoute = ({ children }: any) => {
     username = localStorage.getItem("username");
   }
   const unauthorized = useSelector(isUnauthorized);
-  useLayoutEffect(() => {
-    if (username) console.log("local storage got username so is valid");
-    else router.push("/login");
-  }, []);
+  // useLayoutEffect(() => {
+  //   if (username) console.log("local storage got username so is valid");
+  //   else router.push("/login");
+  // }, []);
 
   console.log("unauth protect:", unauthorized);
   useEffect(() => {
     if (unauthorized && router) {
+      if (router.pathname === "/login" || router.pathname === "/register")
+        return;
       console.log("asfdad");
       router.push("/login");
     }
-  }, [unauthorized]);
+  }, [unauthorized, router]);
   // console.log(`tokn is this: ${token?.slice(0, 9)}`);
 
   return children;

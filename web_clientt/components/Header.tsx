@@ -1,48 +1,60 @@
+import { isUnauthorized } from "features/auth/authSlice";
 import styles from "../styles/Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { cookies } from "pages/_app";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Header() {
-  const [onHoverProfile, setOnHoverProfile] = useState<boolean>(false);
-  const [onHoverUpload, setOnHoverUpload] = useState<boolean>(false);
+  const router = useRouter();
+  const unauthorized = useSelector(isUnauthorized);
 
+  console.log("is atm unauth?=", unauthorized);
   return (
-    <div className={styles.headerWrapper}>
-      <h1>Bank24 | "Banking made easy" </h1>
-    </div>
+    <>
+      <div className={styles.headerWrapper}>
+        <h4>Bank24 "Banking made easy" </h4>
+
+        {unauthorized ? (
+          <>
+            <Link style={{ cursor: "pointer" }} href="/login">
+              Login
+            </Link>
+            <Link style={{ cursor: "pointer" }} href="/register">
+              Register
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link style={{ cursor: "pointer" }} href="/accounts">
+              Accounts
+            </Link>
+            <Link style={{ cursor: "pointer" }} href="/transactions">
+              Transaction History
+            </Link>
+            <Link style={{ cursor: "pointer" }} href="/sendMoney">
+              Send Money
+            </Link>
+            <h4
+              style={{ cursor: "pointer", userSelect: "none" }}
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem("username");
+                  cookies.remove("Authorization");
+                }
+                router.push("/login");
+              }}
+            >
+              Logout
+            </h4>
+          </>
+        )}
+      </div>
+      <hr style={{ margin: "0" }} />
+    </>
   );
 }
 
 export default Header;
-
-{
-  /* <Stack direction="row" spacing={2}> */
-}
-{
-  /* <IconButton
-          className={styles.iconButton}
-          size="large"
-          aria-label="delete"
-          id="1"
-        >
-          <PersonRoundedIcon />
-        </IconButton>
-        <IconButton className={styles.iconButton} aria-label="delete" id="2">
-          <PersonRoundedIcon />
-        </IconButton>
-        <IconButton className={styles.iconButton} aria-label="delete" id="3">
-          <UploadRoundedIcon />
-        </IconButton>
-        <IconButton
-          className={styles.iconButton}
-          size="large"
-          aria-label="Profile"
-          id="4"
-        >
-          <PersonRoundedIcon size="large" />
-        </IconButton> */
-}
-{
-  /* </Stack> */
-}

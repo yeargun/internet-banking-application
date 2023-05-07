@@ -1,7 +1,7 @@
 import { apiSlice } from "utils/api/apiSlice";
 export const transactionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    sendTransaction: builder.mutation({
+    sendMoney: builder.mutation({
       query: (transactionDetails) => ({
         url: "/transaction",
         method: "POST",
@@ -17,5 +17,5 @@ export const transactionApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useSendTransactionMutation, useGetAllTransactionsMutation } =
+export const { useSendMoneyMutation, useGetAllTransactionsMutation } =
   transactionApiSlice;

@@ -9,6 +9,7 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
       const { token } = action.payload;
       console.log("token dd", token);
+      state.unauthorized = false;
       cookies.set("Authorization", `Bearer ${token}`, {
         sameSite: "strict",
         // this needed for prodution tho, https
