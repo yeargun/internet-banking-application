@@ -7,7 +7,7 @@ export const accountApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    addAccount: builder.mutation({
+    createNewAccount: builder.mutation({
       query: (accountDetails) => ({
         url: "/account",
         method: "POST",
@@ -17,5 +17,5 @@ export const accountApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAllAccountsMutation, useAddAccountMutation } =
+export const { useGetAllAccountsMutation, useCreateNewAccountMutation } =
   accountApiSlice;
