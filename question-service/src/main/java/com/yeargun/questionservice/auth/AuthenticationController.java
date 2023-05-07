@@ -4,9 +4,12 @@ import com.yeargun.questionservice.entity.User;
 import com.yeargun.questionservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,10 +25,23 @@ public class AuthenticationController {
     private final UserRepository repository;
 
     @PostMapping("/register")
-    public ResponseEntity<LoginResponse> register(
+    public ResponseEntity register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        try {
+            LoginResponse response = service.register(request);
+            return ResponseEntity.ok(response);
+        } catch (DataAccessException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                SQLException sqlException = (SQLException) cause;
+                return ResponseEntity.badRequest().body(sqlException.getMessage());
+            } else {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
     }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(
@@ -36,6 +52,11 @@ public class AuthenticationController {
         });
 
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/getAllBranchCodes")
+    public ResponseEntity authenticate() {
+        return ResponseEntity.ok(service.getAllBranchCodes());
     }
 
 

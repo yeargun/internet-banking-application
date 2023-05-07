@@ -40,7 +40,7 @@ function Login() {
       }
       setUsername("");
       setPassword("");
-      router.push("/concept1");
+      router.push("/transactions");
     } catch (err) {
       if (!err?.originalStatus) {
         // isloading: true until timeout occurs
@@ -58,18 +58,8 @@ function Login() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.page}>
-        <div className={styles.header}>
-          <button>
-            <i className={styles.logInWithGoogle}></i> Log in with your Google
-            account
-          </button>
-          <div>
-            <hr />
-            <p>OR</p>
-            <hr />
-          </div>
-        </div>
+      <div style={{ marginTop: "150px" }} className={styles.page}>
+        <div style={{ marginTop: "50px" }} className={styles.header}></div>
         <div className={styles.container}>
           {errMsg && (
             <p ref={errRef} className={styles.errMsg} aria-live="assertive">
@@ -80,7 +70,7 @@ function Login() {
             <input
               type="text"
               value={username}
-              placeholder="Username, Mobile Number or Email"
+              placeholder="Id number"
               onChange={handleUsernameInput}
             />
             <input

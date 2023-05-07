@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetAllTransactionsMutation } from "features/transaction/transactionApiSlice";
+import JSONPretty from "react-json-pretty";
 
 function Accounts() {
   const [getAllTransactions, { isLoading }] = useGetAllTransactionsMutation();
@@ -22,7 +23,9 @@ function Accounts() {
     <>
       {isLoading && <div>Loading...</div>}
       <h1>All transactions</h1>
-      {allTransactions && <pre>{JSON.stringify(allTransactions)}</pre>}
+      {allTransactions && (
+        <JSONPretty id="json-pretty" data={allTransactions}></JSONPretty>
+      )}
     </>
   );
 }

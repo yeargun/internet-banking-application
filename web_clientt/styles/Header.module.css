@@ -1,36 +1,9 @@
 .headerWrapper {
-  width: 50vh;
+  width: 100%;
   height: 6vh;
-  background-color: antiquewhite;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
+  background-color: rgb(255, 255, 255);
+
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-
-.headerIcon {
-}
-
-.onHoverText {
-  user-select: none;
-}
-
-.iconAndTextWrapper {
-  width: 7vh;
-  text-align: center;
-}
-
-/* .headerWrapper a:hover {
-  color: #ffd700;
-
-  .headerIcon {
-
-  }
-} */
-
-.wrapperLink {
-  text-decoration: none;
-  color: black;
 }

@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import styles from "../styles/Register.module.css";
 import Head from "next/head";
 import { useRegisterMutation } from "features/auth/authApiSlice";
+import { useGetAllBranchCodesMutation } from "features/branchcode/branchcodeApiSlice";
 import { useRouter } from "next/router";
 import { setCredentials } from "features/auth/authSlice";
 import { useDispatch } from "react-redux";
@@ -9,45 +10,66 @@ import { cookies } from "./_app";
 
 function Register() {
   const errRef = useRef();
+  const dispatch = useDispatch();
+
+  const [idNumber, setIdNumber] = useState("");
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [branchCodes, setBranchCodes] = useState([]);
+  const [registeredBranchCode, setRegisteredBranchCode] = useState(undefined);
   const [errMsg, setErrMsg] = useState("");
+
+  useLayoutEffect(() => {
+    async function fetchAllBranchCodes() {
+      try {
+        const res = await getAllBranchCodes().unwrap();
+        console.log("all branches:", res);
+        debugger;
+        setBranchCodes(res);
+      } catch (err) {}
+    }
+    fetchAllBranchCodes();
+  }, [dispatch]);
 
   const router = useRouter();
   const [register, { isLoading }] = useRegisterMutation();
-  const dispatch = useDispatch();
+  const [getAllBranchCodes, { isLoadingBranchCodes }] =
+    useGetAllBranchCodesMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        emailOrPhone
+        email
       )
     )
       return;
     try {
       cookies.remove("Authorization");
       const jwtToken = await register({
-        username,
-        password,
+        idNumber,
         name,
-        email: emailOrPhone,
+        surname,
+        gender,
+        email,
+        password,
+        phoneNumber,
+        registeredBranchCode,
       }).unwrap();
       dispatch(setCredentials({ ...jwtToken }));
       if (typeof window !== "undefined") {
-        localStorage.setItem("username", username);
+        localStorage.setItem("username", idNumber);
       }
-      router.push("/concept1");
+      router.push("/transactions");
     } catch (err) {
       if (!err?.originalStatus) {
-        // isloading: true until timeout occurs
         setErrMsg("No Server Response");
-      } else if (err.originalStatus === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.originalStatus === 401) {
-        setErrMsg("Unauthorized");
+      } else if (err.originalStatus === 400 || err.data) {
+        setErrMsg(err.data);
       } else {
         setErrMsg("Login Failed");
       }
@@ -65,17 +87,7 @@ function Register() {
       </Head>
       <main className={styles.main}>
         <div className={styles.page}>
-          <div className={styles.pageHeader}>
-            <button>
-              <i className="logInWithGoogle"></i> Log in with your Google
-              account
-            </button>
-            <div>
-              <hr />
-              <p>OR</p>
-              <hr />
-            </div>
-          </div>
+          <div className={styles.pageHeader}></div>
           <div className={styles.container}>
             {errMsg && (
               <p ref={errRef} className={styles.errMsg} aria-live="assertive">
@@ -86,31 +98,69 @@ function Register() {
               <input
                 className={styles.input}
                 type="text"
-                value={emailOrPhone}
-                placeholder="Mobile Number or Email"
-                onChange={(e) => setEmailOrPhone(e.target.value)}
+                value={idNumber}
+                placeholder="ID number"
+                onChange={(e) => setIdNumber(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="text"
                 value={name}
-                placeholder="Name"
+                placeholder="name"
                 onChange={(e) => setName(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="text"
-                value={username}
-                placeholder="Username"
-                onChange={(e) => setUsername(e.target.value)}
+                value={surname}
+                placeholder="surname"
+                onChange={(e) => setSurname(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="text"
+                value={gender}
+                placeholder="gender"
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="text"
+                value={email}
+                placeholder="email"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="password"
                 value={password}
-                placeholder="Password"
+                placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <input
+                className={styles.input}
+                type="text"
+                value={phoneNumber}
+                placeholder="phone number"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              <select
+                className={styles.input}
+                id="branch-code"
+                name="branch-code"
+                placeholder="Registered Branch Code"
+                value={registeredBranchCode}
+                onChange={(e) => setRegisteredBranchCode(e.target.value)}
+              >
+                <option value="" selected disabled>
+                  Branch Code
+                </option>
+                {branchCodes.map((branchCode, ind) => (
+                  <option key={`ee${ind}`} value={branchCode.code}>
+                    {branchCode.code}
+                  </option>
+                ))}
+              </select>
               <button className={styles.formButton}>Sign Up</button>
             </form>
 

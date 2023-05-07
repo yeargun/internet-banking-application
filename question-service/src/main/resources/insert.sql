@@ -50,16 +50,16 @@ call insert_branch("brach10","5334441212","unit0","1400str","20/7",null,"ankara"
 
 ######
 
-call insert_person("10403300292","Ali Argun","Sayilgan","yeargun11@gmail.com","12345","244542342","brach5");
-call insert_person("20403300292","Mehmet","Yılmaz","12@gmail.com","12345","235542342","brach5");
-call insert_person("30403300292","Elif","Vural","13@gmail.com","12345","236542342","brach5");
-call insert_person("40403300292","Gizem","Sözlü","14@gmail.com","12345","237542342","brach5");
-call insert_person("50403300292","Ece Nur","Arıcı","15@gmail.com","12345","238542342","brach5");
-call insert_person("60403300292","Kerem","Atik","16@gmail.com","12345","234542942","brach5");
-call insert_person("70403300292","Cenk","Avcı","17@gmail.com","12345","234542392","brach5");
-call insert_person("80403300292","Ferhat","Sunum","18@gmail.com","12345","234542382","brach5");
-call insert_person("90403300292","Naz","Ekici","19@gmail.com","12345","234542372","brach5");
-call insert_person("11403300292","Buse","Dilmen","22@gmail.com","12345","234542362","brach5");
+call insert_person("10403300292","Ali Argun","Sayilgan","male","yeargun11@gmail.com","12345","244542342","brach5");
+call insert_person("20403300292","Mehmet","Yılmaz","male","12@gmail.com","12345","235542342","brach5");
+call insert_person("30403300292","Elif","Vural","female","13@gmail.com","12345","236542342","brach5");
+call insert_person("40403300292","Gizem","Sözlü","female","14@gmail.com","12345","237542342","brach5");
+call insert_person("50403300292","Ece Nur","Arıcı","female","15@gmail.com","12345","238542342","brach5");
+call insert_person("60403300292","Kerem","Atik","male","16@gmail.com","12345","234542942","brach5");
+call insert_person("70403300292","Cenk","Avcı","male","17@gmail.com","12345","234542392","brach5");
+call insert_person("80403300292","Ferhat","Sunum","male","18@gmail.com","12345","234542382","brach5");
+call insert_person("90403300292","Naz","Ekici","female","19@gmail.com","12345","234542372","brach5");
+call insert_person("11403300292","Buse","Dilmen","female","22@gmail.com","12345","234542362","brach5");
 
 ######
 
@@ -85,16 +85,16 @@ call delete_account_type("Gold18");
 
 ######
 
-call insert_account("1234123412340001",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340002",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340003",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340004",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340005",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340006",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340007",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340008",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340009",10,"male","10403300292","TL","Gold Acc");
-call insert_account("1234123412340010",10,"male","10403300292","TL","Gold Acc");
+call insert_account("1234123412340001",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340002",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340003",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340004",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340005",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340006",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340007",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340008",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340009",10,"10403300292","TL","Gold Acc");
+call insert_account("1234123412340010",10,"10403300292","TL","Gold Acc");
 
 ######
 

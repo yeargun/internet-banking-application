@@ -1,16 +1,25 @@
 package com.yeargun.questionservice.auth;
 
 import com.yeargun.questionservice.config.JwtService;
+import com.yeargun.questionservice.entity.Person;
 import com.yeargun.questionservice.entity.User;
 import com.yeargun.questionservice.repository.UserRepository;
 import com.yeargun.questionservice.token.Token;
 import com.yeargun.questionservice.token.TokenRepository;
 import com.yeargun.questionservice.token.TokenType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +30,13 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    private final JdbcTemplate jdbcTemplate;
+
     public LoginResponse register(RegisterRequest request) {
+        savePerson(request);
         var user = User.builder()
                 .name(request.getName())
-                .username(request.getUsername())
+                .username(request.getIdNumber())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
@@ -35,6 +47,40 @@ public class AuthenticationService {
         return LoginResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private void savePerson(RegisterRequest request){
+//        String encodedPassword = passwordEncoder.encode(request.getPassword());
+//        var person = Person.builder()
+//                .idNumber(request.getIdNumber())
+//                .name(request.getName())
+//                .surname(request.getSurname())
+//                .gender(request.getGender())
+//                .email(request.getEmail())
+//                .password(request.getPassword())
+//                .phoneNumber(request.getPhoneNumber())
+//                .registeredBranchCode(request.getRegisteredBranchCode())
+//                .build();
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("insert_person");
+//        Map<String, Object> inParams = new HashMap<>();
+//        inParams.put("_id_number", request.getIdNumber());
+//        inParams.put("_name", request.getName());
+//        inParams.put("_surname", request.getSurname());
+//        inParams.put("_gender", request.getGender());
+//        inParams.put("_email", request.getEmail());
+//        inParams.put("_password", encodedPassword);
+//        inParams.put("_phone_number", request.getPhoneNumber());
+//        inParams.put("_registered_branch_code", request.getBranchCode());
+
+
+        jdbcCall.execute(request.getIdNumber(), request.getName(), request.getSurname(),
+                request.getGender(), request.getEmail(), request.getPassword(), request.getPhoneNumber(),
+                request.getRegisteredBranchCode());
+
+
+
     }
 
     public LoginResponse authenticate(LoginRequest request) {
@@ -74,5 +120,10 @@ public class AuthenticationService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public List<Map<String, Object>> getAllBranchCodes() {
+        String sql = "SELECT code FROM branch";
+        return jdbcTemplate.queryForList(sql);
     }
 }
