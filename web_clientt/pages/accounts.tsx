@@ -97,9 +97,10 @@ function Accounts() {
               width: "fit-content",
               userSelect: "none",
               textAlign: "center",
+              padding: "5px",
             }}
           >
-            XX close creation XX
+            close creation
           </h1>
           <form onSubmit={handleCreateAccountSubmit}>
             <label style={{ userSelect: "none" }} for="selectCurrency">
