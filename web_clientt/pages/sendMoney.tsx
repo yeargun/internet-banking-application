@@ -4,6 +4,7 @@ import { useGetAllAccountsMutation } from "features/account/accountApiSlice";
 import JSONPretty from "react-json-pretty";
 import { useSendMoneyMutation } from "features/transaction/transactionApiSlice";
 import styles from "../styles/SendMoney.module.css";
+import { useRouter } from "next/router";
 
 const findAccountByIBAN = (accounts, IBAN) => {
   return accounts.find((account) => account.IBAN === IBAN);
@@ -16,18 +17,21 @@ function SendMoney() {
   const [selectedAccount, setSelectedAccount] = useState();
   const [toIBAN, setToIBAN] = useState();
   const [amount, setAmount] = useState<number | undefined>();
+  const router = useRouter();
 
-  const [allAccounts, setAllAccounts] = useState();
+  const [allAccounts, setAllAccounts] = useState([]);
 
   const dispatch = useDispatch();
 
+  async function fetchAllAccounts() {
+    try {
+      const res = await getAllAccounts().unwrap();
+      debugger;
+      setAllAccounts((prevState) => res);
+    } catch (err) {}
+  }
+
   useLayoutEffect(() => {
-    async function fetchAllAccounts() {
-      try {
-        const res = await getAllAccounts().unwrap();
-        setAllAccounts(res);
-      } catch (err) {}
-    }
     fetchAllAccounts();
   }, [dispatch]);
 
@@ -62,15 +66,9 @@ function SendMoney() {
         fromIBAN: selectedIBAN,
         toIBAN: removeSpaces(toIBAN),
         amount,
-      }).unwrap();
-      async function fetchAllAccounts() {
-        try {
-          const res = await getAllAccounts().unwrap();
-          debugger;
-          setAllAccounts(res);
-        } catch (err) {}
-      }
-      fetchAllAccounts();
+      });
+      setSelectedIBAN(undefined);
+      router.reload();
     } catch (err) {
       if (!err?.originalStatus) {
         console.log("No Server Response");
