@@ -3,6 +3,7 @@ package com.yeargun.questionservice.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,16 @@ public class AccountController {
 
 
     @GetMapping("/all")
-    public ResponseEntity getNextQuestion(){
-        return ResponseEntity.ok(service.getAllAccounts());
+    public ResponseEntity getAllAccounts(Authentication authentication){
+        System.out.println(authentication.getPrincipal());
+        String personId = (String) authentication.getName();
+        return ResponseEntity.ok(service.getAllAccounts(personId));
+    }
+
+    @PostMapping("")
+    public ResponseEntity createNewAccount(Authentication authentication, @RequestBody CreateAccountRequest request){
+        String personId = (String) authentication.getName();
+        return ResponseEntity.ok(service.createNewAccount(request, personId));
     }
 
 

@@ -24,6 +24,8 @@ function Register() {
   const [errMsg, setErrMsg] = useState("");
 
   useLayoutEffect(() => {
+    cookies.remove("Authorization");
+
     async function fetchAllBranchCodes() {
       try {
         const res = await getAllBranchCodes().unwrap();

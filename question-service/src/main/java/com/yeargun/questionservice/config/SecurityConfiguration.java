@@ -29,27 +29,43 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
-                .csrf()
-                .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/register","/api/v1/auth/login","/api/v1/auth/getAllBranchCodes")
+                .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/getAllBranchCodes")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
+//                .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl("/api/v1/auth/logout")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-        ;
-
-        http.cors();
+                .addFilterBefore(filterChainExceptionHandler, JwtAuthenticationFilter.class)
+                .csrf().disable()
+                .cors();
+//                .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
+//                .csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/api/v1/auth/register","/api/v1/auth/login","/api/v1/auth/getAllBranchCodes")
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authenticationProvider(authenticationProvider)
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .logout()
+//                .logoutUrl("/api/v1/auth/logout")
+//                .addLogoutHandler(logoutHandler)
+//                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+//        ;
+//
+//        http.cors();
 
         return http.build();
     }

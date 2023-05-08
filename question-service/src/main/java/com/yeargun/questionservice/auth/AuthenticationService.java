@@ -64,15 +64,6 @@ public class AuthenticationService {
 
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("insert_person");
-//        Map<String, Object> inParams = new HashMap<>();
-//        inParams.put("_id_number", request.getIdNumber());
-//        inParams.put("_name", request.getName());
-//        inParams.put("_surname", request.getSurname());
-//        inParams.put("_gender", request.getGender());
-//        inParams.put("_email", request.getEmail());
-//        inParams.put("_password", encodedPassword);
-//        inParams.put("_phone_number", request.getPhoneNumber());
-//        inParams.put("_registered_branch_code", request.getBranchCode());
 
 
         jdbcCall.execute(request.getIdNumber(), request.getName(), request.getSurname(),

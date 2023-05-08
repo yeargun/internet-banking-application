@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   useGetAllAccountsMutation,
   useCreateNewAccountMutation,
+  useGetAllCurrenciesMutation,
 } from "features/account/accountApiSlice";
 import JSONPretty from "react-json-pretty";
 import styles from "../styles/Accounts.module.css";
@@ -11,6 +12,8 @@ function Accounts() {
   const [getAllAccounts, { isLoading }] = useGetAllAccountsMutation();
   const [createNewAccount, { isLoadingAccountCreation }] =
     useCreateNewAccountMutation();
+  const [getAllCurrencies, { isLoadingCurrencies }] =
+    useGetAllCurrenciesMutation();
 
   const [allAccounts, setAllAccounts] = useState();
   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState();
@@ -19,31 +22,46 @@ function Accounts() {
 
   const dispatch = useDispatch();
 
+  async function fetchAllAccounts() {
+    try {
+      const res = await getAllAccounts().unwrap();
+      debugger;
+      setAllAccounts(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleCreateAccountSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createNewAccount().unwrap();
-      debugger;
-      setAllAccounts(res);
+      await createNewAccount({
+        currencySymbol: selectedCurrencyCode,
+      }).unwrap();
+      fetchAllAccounts();
     } catch (err) {
       if (!err?.originalStatus) {
         console.log("No Server Response");
       } else if (err.originalStatus === 400 || err.data) {
-        console.log(err.data);
+        console.log(err?.data);
       } else {
         console.log("IDK WHATS UP LOL");
       }
     }
   };
   useLayoutEffect(() => {
-    async function fetchAllAccounts() {
+    async function fetchAllCurrencies() {
       try {
-        const res = await getAllAccounts().unwrap();
+        const res = await getAllCurrencies().unwrap();
         debugger;
-        setAllAccounts(res);
-      } catch (err) {}
+        setAllCurrencies(res);
+      } catch (err) {
+        console.log(err);
+      }
     }
+    // promise.all d
     fetchAllAccounts();
+    fetchAllCurrencies();
   }, [dispatch]);
 
   const createAccountComponent = (
@@ -55,8 +73,8 @@ function Accounts() {
             setShowCreateAccountForm(true);
           }}
         >
-          <h1>+</h1>
-          <h5>Create an account</h5>
+          <h1 style={{ userSelect: "none" }}>+</h1>
+          <h5 style={{ userSelect: "none" }}>Create an account</h5>
         </div>
       )}
       {showCreateAccountForm && (
@@ -84,7 +102,7 @@ function Accounts() {
             XX close creation XX
           </h1>
           <form onSubmit={handleCreateAccountSubmit}>
-            <label for="selectCurrency">
+            <label style={{ userSelect: "none" }} for="selectCurrency">
               Select the currency of the account you want to open{" "}
             </label>
             <select
@@ -98,8 +116,8 @@ function Accounts() {
                 ...
               </option>
               {allCurrencies?.map((currency, ind) => (
-                <option key={`ee${ind}`} value={currency.key}>
-                  {currency.key}
+                <option key={`ee${ind}`} value={currency.symbol}>
+                  {currency.symbol}
                 </option>
               ))}
             </select>

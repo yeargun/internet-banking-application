@@ -3,10 +3,8 @@ package com.yeargun.questionservice.transaction;
 import com.yeargun.questionservice.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins="http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/api/v1/transaction")
@@ -17,7 +15,13 @@ public class TransactionController {
 
 
     @GetMapping("/all")
-    public ResponseEntity getNextQuestion(){
+    public ResponseEntity getAllTransactions(){
         return ResponseEntity.ok(service.getAllTransactions());
+    }
+
+    @PostMapping("")
+    public ResponseEntity sendMoney(Authentication authentication, @RequestBody SendMoneyRequest request){
+        String personId = (String) authentication.getName();
+        return ResponseEntity.ok(service.sendMoney(request, personId));
     }
 }

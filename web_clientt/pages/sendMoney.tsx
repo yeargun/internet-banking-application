@@ -15,7 +15,7 @@ function SendMoney() {
   const [selectedIBAN, setSelectedIBAN] = useState();
   const [selectedAccount, setSelectedAccount] = useState();
   const [toIBAN, setToIBAN] = useState();
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState<number | undefined>();
 
   const [allAccounts, setAllAccounts] = useState();
 
@@ -25,7 +25,6 @@ function SendMoney() {
     async function fetchAllAccounts() {
       try {
         const res = await getAllAccounts().unwrap();
-        debugger;
         setAllAccounts(res);
       } catch (err) {}
     }
@@ -39,10 +38,21 @@ function SendMoney() {
 
     // Add a space after every 4 characters
     value = value.replace(/(.{4})/g, "$1 ");
+    console.log("@@ ", value);
 
     setToIBAN(value);
 
     // Update the input value with the formatted text
+  };
+
+  const showWithSpaces = (IBAN) => {
+    if (!IBAN) return IBAN;
+    IBAN = IBAN.replace(/\s/g, "");
+    return IBAN.replace(/(.{4})/g, "$1 ");
+  };
+
+  const removeSpaces = (toIBAN) => {
+    return toIBAN.replace(/\s/g, "");
   };
 
   const handleSubmit = async (e) => {
@@ -50,56 +60,65 @@ function SendMoney() {
     try {
       await sendMoney({
         fromIBAN: selectedIBAN,
-        toIBAN,
+        toIBAN: removeSpaces(toIBAN),
         amount,
       }).unwrap();
+      async function fetchAllAccounts() {
+        try {
+          const res = await getAllAccounts().unwrap();
+          debugger;
+          setAllAccounts(res);
+        } catch (err) {}
+      }
       fetchAllAccounts();
     } catch (err) {
       if (!err?.originalStatus) {
-        setErrMsg("No Server Response");
+        console.log("No Server Response");
       } else if (err.originalStatus === 400 || err.data) {
-        setErrMsg(err.data);
+        console.log(err.data);
       } else {
-        setErrMsg("Login Failed");
+        console.log("Login Failed");
       }
     }
   };
 
   const handleIbanSelection = (IBAN) => {
+    console.log("handle", IBAN);
+    console.log("selectedIban", selectedIBAN);
     setSelectedIBAN((prevIBAN) => IBAN);
     setSelectedAccount(findAccountByIBAN(allAccounts, IBAN));
   };
 
   const setAmountHandle = (amount) => {
-    console.log("checkif amount is higher than the balance");
-    setAmount(amount);
+    setAmount(parseInt(amount));
   };
 
   const selectedAccountDetails = (
     <div className={styles.selectedAccount}>
       <h2>Selected account details</h2>
-      <h5>IBAN: {selectedAccount?.IBAN || ""}</h5>
-      <h5>Balance: {selectedAccount?.balance || ""}</h5>
-      <h5>Currency: {selectedAccount?.currency_id || ""}</h5>
+      <h5>IBAN: {showWithSpaces(selectedAccount?.IBAN) || ""}</h5>
+      <h5>Balance: {selectedAccount?.balance}</h5>
+      <h5>Currency: {selectedAccount?.symbol || ""}</h5>
     </div>
   );
 
   const fromAccountDropdown = (
     <div>
-      <label for="selectedIban">Select account to send money from: </label>
+      <label htmlFor="selectedIban">Select account to send money from: </label>
       <select
         className={styles.input}
         id="selectedIban"
         name="selected-iban"
         value={selectedIBAN}
         onChange={(e) => handleIbanSelection(e.target.value)}
+        defaultValue={""}
       >
-        <option value="" selected disabled>
+        <option value="" defaultValue={""} disabled>
           ...
         </option>
         {allAccounts?.map((account, ind) => (
           <option key={`ee${ind}`} value={account.IBAN}>
-            {account.IBAN}
+            {showWithSpaces(account.IBAN)}
           </option>
         ))}
       </select>
@@ -114,20 +133,23 @@ function SendMoney() {
       <form className={styles.form} action="" onSubmit={handleSubmit}>
         {fromAccountDropdown}
         <div>
-          <label for="IBAN">To IBAN: </label>
+          <label htmlFor="IBAN">To IBAN: </label>
           <input
+            style={{ width: "300px" }}
             id="IBAN"
-            onInput={formatIBAN}
+            onInput={(e) => formatIBAN(e.target)}
             className={styles.input}
             type="text"
             value={toIBAN}
-            maxLength={24}
-            onChange={(e) => setToIBAN(e.target.value)}
+            maxLength={39}
+            // onChange={(e) => setToIBAN(e.target.value)}
           />
         </div>
         <div>
-          <label for="amount">Amount: </label>
+          <label htmlFor="amount">Amount: </label>
           <input
+            disabled={!selectedAccount}
+            max={selectedAccount?.balance}
             id="amount"
             className={styles.input}
             type="number"

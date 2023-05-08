@@ -88,6 +88,11 @@ create table Accountt (
   );
 
 
+CREATE TRIGGER `Accountt_BEFORE_INSERT` BEFORE INSERT ON `Accountt` FOR EACH ROW
+BEGIN
+    SET NEW.IBAN = REPLACE(UUID(), '-', '');
+END;
+
 ########
 
 create table CardType (
@@ -329,7 +334,6 @@ delimiter ;
 
 delimiter //
 CREATE PROCEDURE insert_account (
-	IN _IBAN VARCHAR(34),
     IN _balance VARCHAR(70),
     IN _person_id_number VARCHAR(25),
     IN _currency_symbol VARCHAR(6),
@@ -344,8 +348,8 @@ CREATE PROCEDURE insert_account (
 		SELECT id INTO currency_id FROM Currency WHERE symbol = UPPER(_currency_symbol);
         SELECT id INTO account_type_id FROM AccountType WHERE name = UPPER(_account_type_name);
         
-		INSERT INTO Accountt(IBAN, balance, person_id, currency_id, account_type_id )
-        values (_IBAN, _balance, person_id, currency_id, account_type_id);
+		INSERT INTO Accountt(balance, person_id, currency_id, account_type_id )
+        values (_balance, person_id, currency_id, account_type_id);
 	END//
 delimiter ;
 

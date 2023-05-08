@@ -85,16 +85,16 @@ call delete_account_type("Gold18");
 
 ######
 
-call insert_account("1234123412340001",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340002",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340003",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340004",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340005",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340006",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340007",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340008",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340009",10,"10403300292","TL","Gold Acc");
-call insert_account("1234123412340010",10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
+call insert_account(10,"10403300292","TL","Gold Acc");
 
 ######
 
@@ -120,16 +120,36 @@ call delete_card_type("Gold18");
 
 ######
 
-call insert_debit_card("1234123412340001","123","1130","2222111133331000","Gold");
-call insert_debit_card("1234123412340002","123","1030","2222111133331001","Gold");
-call insert_debit_card("1234123412340003","123","0529","2222111133331002","Gold");
-call insert_debit_card("1234123412340004","123","0228","2222111133331003","Gold");
-call insert_debit_card("1234123412340005","111","1229","2222111133331004","Gold");
-call insert_debit_card("1234123412340006","151","1127","2222111133331005","Gold");
-call insert_debit_card("1234123412340007","342","0511","2222111133331006","Gold");
-call insert_debit_card("1234123412340008","532","1125","2222111133331007","Gold");
-call insert_debit_card("1234123412340009","891","1126","2222111133331008","Gold");
-call insert_debit_card("1234123412340010","875","0728","2222111133331009","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "123","1130","2222111133331000","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "123","1030","2222111133331001","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "123","0529","2222111133331002","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "123","0228","2222111133331003","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "111","1229","2222111133331004","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "151","1127","2222111133331005","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "342","0511","2222111133331006","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "532","1125","2222111133331007","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "891","1126","2222111133331008","Gold");
+call insert_debit_card(
+    (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
+    "875","0728","2222111133331009","Gold");
 
 ######
 
@@ -173,16 +193,55 @@ call insert_transaction_type("FAST6","fast but expensive",5.2,1);
 
 ######
 
-call insert_transaction(50,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340001","1234123412340001");
-call insert_transaction(150,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340006","1234123412340008");
-call insert_transaction(250,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340009","1234123412340001");
-call insert_transaction(530,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340001","1234123412340009");
-call insert_transaction(250,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340005","1234123412340004");
-call insert_transaction(540,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340001","1234123412340003");
-call insert_transaction(502,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340003","1234123412340001");
-call insert_transaction(520,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340006","1234123412340009");
-call insert_transaction(501,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340004","1234123412340001");
-call insert_transaction(950,false,"pending","aidat ödemesi","FAST", null, null,"1234123412340001","1234123412340004");
+
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","1 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","2 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","3 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","4 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","5 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","6 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","7 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","8 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","9 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","aidat ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","aidat1 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","aida2t ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","33 ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","aida3t ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","ai5dat ödemesidd","FAST", null, null,@iban1,@iban2);
+SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
+SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
+call insert_transaction(1,false,"pending","ai6dat ödemesidd","FAST", null, null,@iban1,@iban2);
 
 ######
 

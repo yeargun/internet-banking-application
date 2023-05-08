@@ -31,7 +31,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Token> tokens;
 
     @Override

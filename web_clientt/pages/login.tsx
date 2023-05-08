@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "features/auth/authSlice";
 import { useLoginMutation } from "features/auth/authApiSlice";
 import Link from "next/link";
+import { cookies } from "./_app";
 
 function Login() {
   const usernameRef = useRef();
@@ -18,6 +19,7 @@ function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    cookies.remove("Authorization");
     usernameRef?.current?.focus();
   }, []);
 
