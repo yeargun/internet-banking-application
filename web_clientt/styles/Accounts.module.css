@@ -1,8 +1,9 @@
 .createAnAccountButton {
   text-align: center;
   border: 1px solid black;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   width: fit-content;
   cursor: pointer;
   padding: 8px;
+  margin-top: 15px;
 }

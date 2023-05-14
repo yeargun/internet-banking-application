@@ -73,8 +73,9 @@ function Accounts() {
             setShowCreateAccountForm(true);
           }}
         >
-          <h1 style={{ userSelect: "none" }}>+</h1>
-          <h5 style={{ userSelect: "none" }}>Create an account</h5>
+          <h5 style={{ userSelect: "none", padding: "7px" }}>
+            Create an account
+          </h5>
         </div>
       )}
       {showCreateAccountForm && (
@@ -92,18 +93,18 @@ function Accounts() {
               setShowCreateAccountForm(false);
             }}
             style={{
-              border: "1px solid red",
+              border: "1px solid black",
               cursor: "pointer",
               width: "fit-content",
               userSelect: "none",
               textAlign: "center",
-              padding: "5px",
+              padding: "8px",
             }}
           >
             close creation
           </h1>
           <form onSubmit={handleCreateAccountSubmit}>
-            <label style={{ userSelect: "none" }} for="selectCurrency">
+            <label style={{ userSelect: "none" }} htmlFor="selectCurrency">
               Select the currency of the account you want to open{" "}
             </label>
             <select

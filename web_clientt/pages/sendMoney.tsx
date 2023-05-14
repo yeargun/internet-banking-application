@@ -11,12 +11,14 @@ const findAccountByIBAN = (accounts, IBAN) => {
 };
 
 function SendMoney() {
-  const [getAllAccounts, { isLoading }] = useGetAllAccountsMutation();
+  const [getAllAccounts, { isLoadingAllAccounts }] =
+    useGetAllAccountsMutation();
   const [sendMoney, { isLoadingMoneyTransfer }] = useSendMoneyMutation();
   const [selectedIBAN, setSelectedIBAN] = useState();
   const [selectedAccount, setSelectedAccount] = useState();
   const [toIBAN, setToIBAN] = useState();
   const [amount, setAmount] = useState<number | undefined>();
+  const [description, setDescription] = useState<string | undefined>();
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -70,6 +72,7 @@ function SendMoney() {
         fromIBAN: selectedIBAN,
         toIBAN: removeSpaces(toIBAN),
         amount,
+        description,
       });
       //   setSelectedIBAN(undefined);
       router.reload();
@@ -133,7 +136,7 @@ function SendMoney() {
   );
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoadingAllAccounts && <div>isLoadingAllAccounts...</div>}
       <h1>Transfer money</h1>
       {selectedAccountDetails}
 
@@ -164,6 +167,18 @@ function SendMoney() {
             value={amount}
             min={0}
             onChange={(e) => setAmountHandle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="Description">Description: </label>
+          <textarea
+            style={{ width: "200px", padding: "4px" }}
+            disabled={!selectedAccount}
+            id="Description"
+            className={styles.input}
+            value={description}
+            maxLength={120}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
