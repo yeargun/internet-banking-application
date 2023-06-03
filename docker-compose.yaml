@@ -1,0 +1,33 @@
+version: "3"
+services:
+  back:
+    depends_on:
+      - db
+    build: ./bankingapp
+    container_name: bankingappBackend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:5432/mysql
+      SPRING_DATASOURCE_USERNAME: mysql2
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  db:
+    image: mysql:latest
+    container_name: bankingappDB
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: mysql2
+      MYSQL_PASSWORD: pass
+      volumes: ./init_sql:/docker-entrypoint-initdb.d
+
+  front:
+    # image: "16bits/zero2hero-fe:0.0.3"
+    build: ./web_clientt
+    container_name: bankingAppFront
+    ports:
+      - "3000:3000"
