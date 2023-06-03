@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { setCredentials } from "features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { cookies } from "./_app";
+import Link from "next/link";
 
 function Register() {
   const errRef = useRef();
@@ -23,6 +24,11 @@ function Register() {
   const [registeredBranchCode, setRegisteredBranchCode] = useState(undefined);
   const [errMsg, setErrMsg] = useState("");
 
+  const router = useRouter();
+  const [register, { isLoading }] = useRegisterMutation();
+  const [getAllBranchCodes, { isLoadingBranchCodes }] =
+    useGetAllBranchCodesMutation();
+
   useLayoutEffect(() => {
     cookies.remove("Authorization");
 
@@ -35,12 +41,7 @@ function Register() {
       } catch (err) {}
     }
     fetchAllBranchCodes();
-  }, [dispatch]);
-
-  const router = useRouter();
-  const [register, { isLoading }] = useRegisterMutation();
-  const [getAllBranchCodes, { isLoadingBranchCodes }] =
-    useGetAllBranchCodesMutation();
+  }, [dispatch, getAllBranchCodes]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -169,21 +170,21 @@ function Register() {
             <ul>
               <li>By signing up, you agree to our&nbsp;</li>
               <li>
-                <a href="">Terms</a>
+                <Link href="">Terms</Link>
               </li>
               <li>
-                <a href="">&nbsp;Data Policy&nbsp;</a>
+                <Link href="">&nbsp;Data Policy&nbsp;</Link>
               </li>
               <li>and</li>
               <li>
-                <a href="">&nbsp;Cookies Policy</a>.
+                <Link href="">&nbsp;Cookies Policy</Link>
               </li>
             </ul>
           </div>
         </div>
         <div className={styles.option}>
           <p>
-            Have an account? <a href="/login">Log in</a>
+            Have an account? <Link href="/login">Log in</Link>
           </p>
         </div>
         <div className={styles.otherapps}>

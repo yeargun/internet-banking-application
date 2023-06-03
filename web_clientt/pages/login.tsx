@@ -87,7 +87,7 @@ function Login() {
       </div>
       <div className={styles.option}>
         <p>
-          Don't have an account? <Link href="/register">Sign up</Link>
+          Don&apos;t have an account? <Link href="/register">Sign up</Link>
         </p>
       </div>
       <div className={styles.otherapps}>

@@ -1,10 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { cookies } from "pages/_app";
+
+interface AuthState {
+  unauthorized: boolean | undefined;
+}
+
+const initialState: AuthState = {
+  unauthorized: undefined,
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    unauthorized: undefined,
-  },
+  initialState,
   reducers: {
     setCredentials: (state, action) => {
       const { token } = action.payload;
@@ -20,7 +27,7 @@ const authSlice = createSlice({
         // encode: (val) => val, //prevent url encode
       });
     },
-    setUnauthorized: (state, action) => {
+    setUnauthorized: (state, action: PayloadAction<boolean | undefined>) => {
       console.log("action payload this", action.payload);
       state.unauthorized = action.payload;
     },

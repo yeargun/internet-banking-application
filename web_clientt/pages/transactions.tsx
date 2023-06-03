@@ -18,7 +18,7 @@ function TransactionHistory() {
       } catch (err) {}
     }
     fetchAllTransactions();
-  }, [dispatch]);
+  }, [dispatch, getAllTransactions]);
   return (
     <>
       {isLoading && <div>Loading...</div>}

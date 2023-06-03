@@ -15,7 +15,7 @@ function Header() {
   return (
     <>
       <div className={styles.headerWrapper}>
-        <h4>Bank24 "Banking made easy" </h4>
+        <h4>Bank24 &quot;Banking made easy&quot; </h4>
 
         {unauthorized ? (
           <>
