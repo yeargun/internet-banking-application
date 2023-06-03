@@ -62,7 +62,7 @@ function Accounts() {
     // promise.all d
     fetchAllAccounts();
     fetchAllCurrencies();
-  }, [dispatch]);
+  }, [dispatch, fetchAllAccounts, getAllCurrencies]);
 
   const createAccountComponent = (
     <div style={{ justifyContent: "center", display: "flex" }}>
