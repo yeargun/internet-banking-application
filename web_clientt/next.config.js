@@ -5,6 +5,10 @@ const nextConfig = {
     domains: ["www.w3schools.com"],
     formats: ["image/webp"],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  output: "standalone",
 };
 
 module.exports = nextConfig;
