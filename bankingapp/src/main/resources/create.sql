@@ -113,7 +113,7 @@ create table DebitCard (
   `type_id` BINARY(16) not null,
    PRIMARY KEY (`id`),
    foreign key(`connected_IBAN`) references Accountt(`IBAN`),
-   foreign key(`type_id`) references  cardtype(`id`)
+   foreign key(`type_id`) references  CardType(`id`)
   );
 
 

@@ -296,7 +296,7 @@ SELECT
   CONCAT(MONTH(NOW()), '/',YEAR(NOW())) as t_month,
   SUM(t.amount) AS total_expenses
 FROM
-  transactionn t
+  Transactionn t
 JOIN
   Accountt a ON a.IBAN = t.sender_IBAN
   and

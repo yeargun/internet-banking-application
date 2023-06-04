@@ -16,7 +16,7 @@ public class TransactionService {
     }
 
     public List<Map<String, Object>> getAllTransactions(String personId) {
-        String sql = "SELECT t.* FROM transactionn t " +
+        String sql = "SELECT t.* FROM Transactionn t " +
                         "JOIN Accountt a ON t.sender_iban = a.IBAN " +
                         "WHERE a.person_id = (SELECT id from Person WHERE id_number = ?)";
         return jdbcTemplate.queryForList(sql, personId);

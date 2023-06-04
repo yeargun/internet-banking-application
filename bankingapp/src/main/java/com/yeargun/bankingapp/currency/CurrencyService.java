@@ -17,7 +17,7 @@ public class CurrencyService {
 
 
     public List<Map<String, Object>> getAllCurrencies() {
-        String sql = "SELECT id,selling_value, buying_value, symbol FROM currency";
+        String sql = "SELECT id,selling_value, buying_value, symbol FROM Currency";
         return jdbcTemplate.queryForList(sql);
     }
 

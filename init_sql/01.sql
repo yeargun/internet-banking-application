@@ -88,10 +88,10 @@ create table Accountt (
   );
 
 
-CREATE TRIGGER `Accountt_BEFORE_INSERT` BEFORE INSERT ON `Accountt` FOR EACH ROW
-BEGIN
-    SET NEW.IBAN = REPLACE(UUID(), '-', '');
-END;
+-- CREATE TRIGGER Accountt_BEFORE_INSERT BEFORE INSERT ON Accountt FOR EACH ROW
+-- BEGIN
+--     SET NEW.IBAN = REPLACE(UUID(), '-', '');
+-- END;
 
 ########
 
@@ -113,7 +113,7 @@ create table DebitCard (
   `type_id` BINARY(16) not null,
    PRIMARY KEY (`id`),
    foreign key(`connected_IBAN`) references Accountt(`IBAN`),
-   foreign key(`type_id`) references  cardtype(`id`)
+   foreign key(`type_id`) references CardType(`id`)
   );
 
 
@@ -190,7 +190,7 @@ create table JWTToken (
 delimiter //
 CREATE PROCEDURE insert_country (IN _name VARCHAR(85))
 	BEGIN
-		INSERT INTO country(name)
+		INSERT INTO Country(name)
         values (UPPER(_name));
 	END//
 delimiter ;
@@ -344,13 +344,15 @@ CREATE PROCEDURE insert_account (
 		DECLARE person_id BINARY(16);
         DECLARE currency_id BINARY(16);
         DECLARE account_type_id BINARY(16);
+        DECLARE iban VARCHAR(34);
 
         SELECT id INTO person_id FROM Person WHERE id_number = _person_id_number;
 		SELECT id INTO currency_id FROM Currency WHERE symbol = UPPER(_currency_symbol);
         SELECT id INTO account_type_id FROM AccountType WHERE name = UPPER(_account_type_name);
+        SET iban = REPLACE(UUID(), '-', '');
         
-		INSERT INTO Accountt(balance, person_id, currency_id, account_type_id )
-        values (_balance, person_id, currency_id, account_type_id);
+		INSERT INTO Accountt(balance, person_id, currency_id, account_type_id, IBAN )
+        values (_balance, person_id, currency_id, account_type_id, iban);
 	END//
 delimiter ;
 

@@ -2,13 +2,13 @@ spring:
   #  MYSQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #    url: jdbc:mysql://localhost:3306/yeargun
-    #    username: root
-    #    password: pass
+    url: jdbc:mysql://localhost:3306/yeargun
+    username: root
+    password: pass
 
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+#    url: ${SPRING_DATASOURCE_URL}
 
   jpa:
     hibernate:
@@ -21,7 +21,7 @@ spring:
   sql:
     init:
       mode: always
-  #     schema-locations: classpath:create.sql
-  #     data-locations: classpath:insert.sql
-  #     encoding: UTF-8
-  #     continue-on-error: true
+      schema-locations: classpath:create.sql
+      data-locations: classpath:insert.sql
+      encoding: UTF-8
+      continue-on-error: true

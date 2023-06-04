@@ -53,7 +53,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/getAllBranchCodes")
-    public ResponseEntity authenticate() {
+    public ResponseEntity getAllBranchCodes() {
         return ResponseEntity.ok(service.getAllBranchCodes());
     }
 

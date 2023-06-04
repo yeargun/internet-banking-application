@@ -8,22 +8,24 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3039/mysql
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mysql
       SPRING_DATASOURCE_USERNAME: mysql2
       SPRING_DATASOURCE_PASSWORD: pass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    command: bash -c "sleep 15 && java -jar app.jar"
 
   db:
     image: mysql:latest
     container_name: bankingappDB
     ports:
-      - "3039:3039"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: mysql
       MYSQL_USER: mysql2
       MYSQL_PASSWORD: pass
-      volumes: ./init_sql:/docker-entrypoint-initdb.d
+    volumes:
+      - ./init_sql:/docker-entrypoint-initdb.d
 
   front:
     build: ./web_clientt

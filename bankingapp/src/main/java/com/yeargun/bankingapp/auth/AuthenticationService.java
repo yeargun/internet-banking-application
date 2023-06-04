@@ -110,7 +110,7 @@ public class AuthenticationService {
     }
 
     public List<Map<String, Object>> getAllBranchCodes() {
-        String sql = "SELECT code FROM branch";
+        String sql = "SELECT code FROM Branch";
         return jdbcTemplate.queryForList(sql);
     }
 }
