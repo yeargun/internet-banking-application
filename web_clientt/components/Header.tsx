@@ -17,7 +17,7 @@ function Header() {
       <div className={styles.headerWrapper}>
         <h4>Bank24 &quot;Banking made easy&quot; </h4>
 
-        {unauthorized ? (
+        {unauthorized || unauthorized === undefined ? (
           <>
             <Link style={{ cursor: "pointer" }} href="/login">
               Login

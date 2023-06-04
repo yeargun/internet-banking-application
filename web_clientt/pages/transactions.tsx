@@ -9,11 +9,10 @@ function TransactionHistory() {
 
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     async function fetchAllTransactions() {
       try {
         const res = await getAllTransactions().unwrap();
-        debugger;
         setAllTransactions(res);
       } catch (err) {}
     }

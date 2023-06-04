@@ -32,6 +32,16 @@ function Accounts() {
     }
   }
 
+  async function fetchAllCurrencies() {
+    try {
+      const res = await getAllCurrencies().unwrap();
+      debugger;
+      setAllCurrencies(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleCreateAccountSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -50,19 +60,10 @@ function Accounts() {
     }
   };
   useLayoutEffect(() => {
-    async function fetchAllCurrencies() {
-      try {
-        const res = await getAllCurrencies().unwrap();
-        debugger;
-        setAllCurrencies(res);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    // promise.all d
+    console.log("xd rerun dispatch, getAllTransactions mutation");
     fetchAllAccounts();
     fetchAllCurrencies();
-  }, [dispatch, fetchAllAccounts, getAllCurrencies]);
+  }, [dispatch && fetchAllAccounts && getAllCurrencies]);
 
   const createAccountComponent = (
     <div style={{ justifyContent: "center", display: "flex" }}>

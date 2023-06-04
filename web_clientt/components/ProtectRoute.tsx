@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { isUnauthorized } from "features/auth/authSlice";
 export const ProtectRoute = ({ children }: any) => {
   const router = useRouter();
@@ -9,10 +9,6 @@ export const ProtectRoute = ({ children }: any) => {
     username = localStorage.getItem("username");
   }
   const unauthorized = useSelector(isUnauthorized);
-  // useLayoutEffect(() => {
-  //   if (username) console.log("local storage got username so is valid");
-  //   else router.push("/login");
-  // }, []);
 
   console.log("unauth protect:", unauthorized);
   useEffect(() => {
