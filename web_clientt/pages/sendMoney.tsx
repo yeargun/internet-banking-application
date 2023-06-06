@@ -39,6 +39,12 @@ function SendMoney() {
     fetchAllAccounts();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (allAccounts.length > 0) {
+      setSelectedAccount(findAccountByIBAN(allAccounts, selectedIBAN));
+    }
+  }, [allAccounts]);
+
   const formatIBAN = (input) => {
     console.log("@@ ", input.value);
     // Remove all spaces from the input value
@@ -75,10 +81,9 @@ function SendMoney() {
         amount,
         description,
       });
-      fetchAllAccounts();
       setTransactionRes(res);
-      //   setSelectedIBAN(undefined);
-      // router.reload();
+      await fetchAllAccounts();
+      refreshSelectedIBAN(selectedIBAN);
     } catch (err) {
       if (!err?.originalStatus) {
         console.log("No Server Response");
@@ -95,6 +100,10 @@ function SendMoney() {
     console.log("selectedIban", selectedIBAN);
     setSelectedIBAN((prevIBAN) => IBAN);
     setSelectedAccount(findAccountByIBAN(allAccounts, IBAN));
+  };
+
+  const refreshSelectedAccount = (IBAN) => {
+    setSelectedAccount((prev) => findAccountByIBAN(allAccounts, IBAN));
   };
 
   const setAmountHandle = (amount) => {
