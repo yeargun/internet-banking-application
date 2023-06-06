@@ -24,4 +24,10 @@ public class TransactionController {
         String personId = (String) authentication.getName();
         return ResponseEntity.ok(service.sendMoney(request, personId));
     }
+
+    @ExceptionHandler(SameIBANException.class)
+    ResponseEntity<SameIBANException> handle(SameIBANException e){
+        SameIBANException error = new SameIBANException(e.getMessage());
+        return ResponseEntity.internalServerError().body(error);
+    }
 }
