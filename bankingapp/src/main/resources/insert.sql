@@ -9,7 +9,7 @@ call insert_country("Poland");
 call insert_country("Romania");
 call insert_country("Netherlands");
 
-######
+--
 
 call insert_address("unit0","1400str","20/7",null,"ankara","region0","06701","Turkey",@temp);
 call insert_address("unit0","1400str","20/7",null,"ankara","region0","06701","Italy",@temp);
@@ -22,7 +22,7 @@ call insert_address("unit0","1400str","20/7",null,"ankara","region0","06701","US
 call insert_address("unit0","1400str","20/7",null,"ankara","region0","06701","Turkey",@temp);
 call insert_address("unit0","1400str","20/7",null,"ankara","region0","06701","Turkey",@temp);
 
-######
+--
 
 call insert_currency("Turkish Lira", "TL", 20.1231, 20.545, now(), true);
 call insert_currency("United Stated Dolar", "USD", 1.2, 1.3, now(), true);
@@ -35,7 +35,7 @@ call insert_currency("Swiss Franc", "CHF", 7.1231, 7.545, now(), true);
 call insert_currency("Australian Dollar", "AUD", 6.1231, 6.545, now(), true);
 call insert_currency("Bulgarian Lev", "BGN", 5.1231, 5.545, now(), true);
 
-######
+--
 
 call insert_branch("brach1","5334441212","unit0","55str","20/7",null,"ankara","region0","06701","Turkey");
 call insert_branch("brach2","5334441212","unit0","1400str","20/7",null,"ankara","region0","06701","Turkey");
@@ -48,7 +48,7 @@ call insert_branch("brach8","5334441212","unit0","1400str","20/7",null,"ankara",
 call insert_branch("brach9","5334441212","unit0","1400str","20/7",null,"ankara","region0","06701","Turkey");
 call insert_branch("brach10","5334441212","unit0","1400str","20/7",null,"ankara","region0","06701","Turkey");
 
-######
+--
 
 call insert_person("10403300292","Ali Argun","Sayilgan","male","yeargun11@gmail.com","12345","244542342","brach5");
 call insert_person("20403300292","Mehmet","Yılmaz","male","12@gmail.com","12345","235542342","brach5");
@@ -61,7 +61,7 @@ call insert_person("80403300292","Ferhat","Sunum","male","18@gmail.com","12345",
 call insert_person("90403300292","Naz","Ekici","female","19@gmail.com","12345","234542372","brach5");
 call insert_person("11403300292","Buse","Dilmen","female","22@gmail.com","12345","234542362","brach5");
 
-######
+--
 
 call insert_account_type("Gold Acc");
 call insert_account_type("Silver_2023 Acc");
@@ -83,7 +83,7 @@ call delete_account_type("Gold16");
 call delete_account_type("Gold17");
 call delete_account_type("Gold18");
 
-######
+--
 
 call insert_account(10,"10403300292","TL","Gold Acc");
 call insert_account(10,"10403300292","TL","Gold Acc");
@@ -96,7 +96,7 @@ call insert_account(10,"10403300292","TL","Gold Acc");
 call insert_account(10,"10403300292","TL","Gold Acc");
 call insert_account(10,"10403300292","TL","Gold Acc");
 
-######
+--
 
 call insert_card_type("Gold");
 call insert_card_type("Silver_2023");
@@ -118,7 +118,7 @@ call delete_card_type("Gold16");
 call delete_card_type("Gold17");
 call delete_card_type("Gold18");
 
-######
+--
 
 call insert_debit_card(
     (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
@@ -151,7 +151,7 @@ call insert_debit_card(
     (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1),
     "875","0728","2222111133331009","Gold");
 
-######
+--
 
 call insert_ATM("atm_unit","55str","20/7",null,"ankara","region0","06701","Turkey");
 call insert_ATM("atm_unit","55str","20/7",null,"ankara","region0","06701","Turkey");
@@ -165,7 +165,7 @@ call insert_ATM("atm_unit","55str","20/7",null,"ankara","region0","06701","Turke
 call insert_ATM("atm_unit","55str","20/7",null,"ankara","region0","06701","Turkey");
 
 
-######
+--
 
 call insert_employment("Cashier",1800,"20403300292","brach5");
 call insert_employment("Cashier",1800,"50403300292","brach5");
@@ -178,7 +178,7 @@ call insert_employment("Cashier",1800,"70403300292","brach3");
 call insert_employment("Cashier",1800,"20403300292","brach5");
 call insert_employment("Cashier",1800,"70403300292","brach5");
 
-######
+--
 
 call insert_transaction_type("FAST","fast but expensive",5.2,1);
 call insert_transaction_type("SWIFT","fast but expensive",5.2,1);
@@ -191,7 +191,7 @@ call insert_transaction_type("FAST4","fast but expensive",5.2,1);
 call insert_transaction_type("FAST5","fast but expensive",5.2,1);
 call insert_transaction_type("FAST6","fast but expensive",5.2,1);
 
-######
+--
 
 
 SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
@@ -243,7 +243,7 @@ SET @iban1 := (SELECT `IBAN` FROM Accountt ORDER BY RAND() LIMIT 1);
 SET @iban2 := (SELECT `IBAN` FROM Accountt WHERE `IBAN` <> @iban1 ORDER BY RAND() LIMIT 1);
 call insert_transaction(1,false,"pending","ai6dat ödemesidd","FAST", null, null,@iban1,@iban2);
 
-######
+--
 
 call insert_jwt_token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
 call insert_jwt_token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");

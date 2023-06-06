@@ -1,10 +1,10 @@
 create table Country (
-  `id` SMALLINT NOT NULL AUTO_INCREMENT,
+  `id` BINARY(16) DEFAULT (UUID_TO_BIN(UUID())),
   `name` varchar(85) UNIQUE NOT NULL,
   PRIMARY KEY(`id`)
   );
 
-########
+--
 
 create table Address (
   `id` BINARY(16) DEFAULT (UUID_TO_BIN(UUID())),
@@ -15,13 +15,13 @@ create table Address (
   `city` VARCHAR(85) NOT NULL,
   `region` VARCHAR(85),
   `postal_code` VARCHAR(7) NOT NULL,
-  `country_id` SMALLINT NOT NULL, 
+  `country_id` BINARY(16) NOT NULL,
    PRIMARY KEY (`id`),
    FOREIGN KEY (`country_id`) REFERENCES Country(`id`)
   );
 
 
-########
+--
 
 create table Currency (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -35,18 +35,18 @@ create table Currency (
   );
 
 
-########
+--
 
 create table Branch (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
   `code` VARCHAR(8) unique not null,
   `phone_number` VARCHAR(20) not null,
-  `address_id` binary(16) not null, #
+  `address_id` binary(16) not null,
    PRIMARY KEY (`id`),
    foreign key (`address_id`) references Address(`id`)
   );
 
-########
+--
 
 create table Person (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -57,13 +57,12 @@ create table Person (
   `email` VARCHAR(254) not null unique,
   `password` VARCHAR(100) not null,
   `phone_number` VARCHAR(20) not null unique,
-  `registered_branch_id` binary(16) not null, ##
+  `registered_branch_id` binary(16) not null,
    PRIMARY KEY (`id`),
    FOREIGN KEY(`registered_branch_id`) REFERENCES Branch(`id`)
 );
 
-
-########
+--
 
 create table AccountType (
 	`id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -71,16 +70,16 @@ create table AccountType (
     PRIMARY KEY (`id`)
   );
 
-########
+--
 
 create table Accountt (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
   `IBAN` VARCHAR(34) unique not null,
   `balance`  DECIMAL(18,2) NOT NULL default(0),
-  `currency_id` BINARY(16) NOT NULL, #
+  `currency_id` BINARY(16) NOT NULL,
   `creation_time` TIMESTAMP NOT NULL DEFAULT NOW(), 
-  `account_type_id` BINARY(16) NOT NULL, #
-  `person_id` BINARY(16) NOT NULL, #
+  `account_type_id` BINARY(16) NOT NULL,
+  `person_id` BINARY(16) NOT NULL,
    PRIMARY KEY (`id`),
    FOREIGN KEY(`currency_id`) REFERENCES Currency(`id`),
    FOREIGN KEY(`account_type_id`) REFERENCES AccountType(`id`),
@@ -88,12 +87,11 @@ create table Accountt (
   );
 
 
-CREATE TRIGGER `Accountt_BEFORE_INSERT` BEFORE INSERT ON `Accountt` FOR EACH ROW
-BEGIN
+CREATE TRIGGER Accountt_BEFORE_INSERT BEFORE INSERT ON Accountt FOR EACH ROW
     SET NEW.IBAN = REPLACE(UUID(), '-', '');
-END;
 
-########
+
+--
 
 create table CardType (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -102,7 +100,7 @@ create table CardType (
   );
 
 
-########
+--
 
 create table DebitCard (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -117,7 +115,7 @@ create table DebitCard (
   );
 
 
-########
+--
 
 create table ATM (
  `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -127,7 +125,7 @@ create table ATM (
   );
 
 
-########
+--
 
 create table Employment (
   `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -143,7 +141,7 @@ create table Employment (
   );
 
 
-########
+--
 
 create table TransactionType (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -154,7 +152,7 @@ create table TransactionType (
    PRIMARY KEY (`id`)
 );
 
-########
+--
 
 create table Transactionn (
   `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -164,11 +162,11 @@ create table Transactionn (
   `description` VARCHAR(120) not null,
   `ts1` TIMESTAMP NOT NULL DEFAULT NOW(), 
   `updated_at`  TIMESTAMP ON UPDATE NOW(), 
-  `transaction_type_id` BINARY(16) not null, #
-  `used_atm_id` BINARY(16), #
-  `used_branch_id` BINARY(16), #
-  `sender_IBAN` VARCHAR(34) not null, #
-  `reciever_IBAN` VARCHAR(34) not null, #
+  `transaction_type_id` BINARY(16) not null,
+  `used_atm_id` BINARY(16),
+  `used_branch_id` BINARY(16),
+  `sender_IBAN` VARCHAR(34) not null,
+  `reciever_IBAN` VARCHAR(34) not null,
    PRIMARY KEY (`id`),
    FOREIGN KEY(`transaction_type_id`) REFERENCES TransactionType(`id`),
    FOREIGN KEY(`used_atm_id`) REFERENCES ATM(`id`),
@@ -177,7 +175,7 @@ create table Transactionn (
    FOREIGN KEY(`reciever_IBAN`) REFERENCES Accountt(`IBAN`)
   );
 
-########
+--
 
 create table JWTToken (
 `id` BINARY(16) default (UUID_TO_BIN(UUID())),
@@ -185,18 +183,16 @@ create table JWTToken (
    PRIMARY KEY (`id`)
   );
 
-########
+--
 
-delimiter //
-CREATE PROCEDURE insert_country (IN _name VARCHAR(85))
+CREATE PROCEDURE insert_country (IN iname VARCHAR(85))
 	BEGIN
-		INSERT INTO country(name)
-        values (UPPER(_name));
-	END//
-delimiter ;
+		INSERT INTO Country(name)
+        VALUE (iname);
+	END;
+//
 
-#########
-
+--
 
 delimiter //
 CREATE PROCEDURE insert_address (
@@ -211,7 +207,7 @@ CREATE PROCEDURE insert_address (
     OUT Inserted_address_id BINARY(16)
 )
 	BEGIN
-		DECLARE country_id SMALLINT;
+		DECLARE country_id BINARY(16);
 
 		SELECT id INTO country_id FROM Country WHERE UPPER(name) = _country_name;
         IF country_id IS NULL THEN
@@ -222,13 +218,13 @@ CREATE PROCEDURE insert_address (
 		SET Inserted_address_id = UUID_TO_BIN(UUID());
 		INSERT INTO Address(id, unit_number, street_number, address_line_1, address_line_2, city, region, postal_code, country_id)
         values (Inserted_address_id,_unit_number, _street_number, _address_line_1, _address_line_2, _city, _region, _postal_code, country_id);
-        
-        
-	END//
+
+
+	END;
+//
 delimiter ;
 
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_currency (
@@ -242,10 +238,11 @@ CREATE PROCEDURE insert_currency (
 	BEGIN
 		INSERT INTO Currency(name, symbol, selling_value, buying_value, last_update, is_active)
         values (_name, UPPER(_symbol), _selling_value, _buying_value, _last_update, _is_active);
-	END//
+	END;
+//
 delimiter ;
 
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_branch (
@@ -261,19 +258,17 @@ CREATE PROCEDURE insert_branch (
     IN _country_name VARCHAR(85)
 )
 	BEGIN
-		#DECLARE inserted_address_id BINARY(16);
+-- 		DECLARE inserted_address_id BINARY(16);
 		call insert_address(_unit_number, _street_number, _address_line_1, _address_line_2, _city, _region, _postal_code, _country_name,
 			@inserted_address_id);
 
 		INSERT INTO Branch(code, phone_number, address_id)
         values (_code, _phone_number, @inserted_address_id);
-        
-	END//
+
+	END;//
 delimiter ;
 
-
-
-
+--
 
 delimiter //
 CREATE PROCEDURE insert_person (
@@ -289,7 +284,7 @@ CREATE PROCEDURE insert_person (
 	BEGIN
 		DECLARE registered_branch_id BINARY(16);
         SELECT id INTO registered_branch_id FROM Branch WHERE code = UPPER(_registered_branch_code);
-		
+
 		INSERT INTO Person(id_number, name, surname, gender, email, password, phone_number, registered_branch_id)
         values (_id_number, _name, _surname, gender, _email, _password, _phone_number, registered_branch_id);
 	END//
@@ -330,8 +325,7 @@ CREATE PROCEDURE update_account_type (
     END //
 delimiter ;
 
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_account (
@@ -348,16 +342,13 @@ CREATE PROCEDURE insert_account (
         SELECT id INTO person_id FROM Person WHERE id_number = _person_id_number;
 		SELECT id INTO currency_id FROM Currency WHERE symbol = UPPER(_currency_symbol);
         SELECT id INTO account_type_id FROM AccountType WHERE name = UPPER(_account_type_name);
-        
+
 		INSERT INTO Accountt(balance, person_id, currency_id, account_type_id )
         values (_balance, person_id, currency_id, account_type_id);
 	END//
 delimiter ;
 
-
-
-########
-
+--
 
 delimiter //
 CREATE PROCEDURE insert_card_type (
@@ -391,9 +382,7 @@ CREATE PROCEDURE update_card_type (
     END //
 delimiter ;
 
-
-########
-
+--
 
 delimiter //
 CREATE PROCEDURE insert_debit_card (
@@ -407,14 +396,13 @@ CREATE PROCEDURE insert_debit_card (
 		DECLARE type_id BINARY(16);
 
         SELECT id INTO type_id FROM CardType WHERE name = _card_type_name;
-        
+
 		INSERT INTO DebitCard(connected_IBAN, security_code, expiration_date, card_number, type_id)
         values (_connected_IBAN, _security_code, _expiration_date, _card_number, type_id);
 	END//
 delimiter ;
 
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_ATM (
@@ -433,11 +421,11 @@ CREATE PROCEDURE insert_ATM (
 
 		INSERT INTO ATM(address_id)
         values (@inserted_address_id);
-        
+
 	END//
 delimiter ;
 
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_employment (
@@ -458,8 +446,7 @@ CREATE PROCEDURE insert_employment (
 	END//
 delimiter ;
 
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_transaction_type (
@@ -474,9 +461,7 @@ CREATE PROCEDURE insert_transaction_type (
 	END//
 delimiter ;
 
-
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_transaction (
@@ -504,8 +489,7 @@ CREATE PROCEDURE insert_transaction (
 	END//
 delimiter ;
 
-
-########
+--
 
 delimiter //
 CREATE PROCEDURE insert_jwt_token (
@@ -517,4 +501,4 @@ CREATE PROCEDURE insert_jwt_token (
 	END//
 delimiter ;
 
-########
+--

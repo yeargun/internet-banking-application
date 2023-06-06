@@ -2,10 +2,13 @@ spring:
   #  MYSQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+    ##local development
     url: jdbc:mysql://localhost:3306/yeargun
     username: root
     password: pass
 
+    ##docker
 #    username: ${SPRING_DATASOURCE_USERNAME}
 #    password: ${SPRING_DATASOURCE_PASSWORD}
 #    url: ${SPRING_DATASOURCE_URL}
@@ -20,8 +23,9 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
   sql:
     init:
-      mode: always
-      schema-locations: classpath:create.sql
-      data-locations: classpath:insert.sql
+#      mode: always
+#      schema-locations:
+#       - classpath:create.sql
+#      data-locations: classpath:insert.sql
       encoding: UTF-8
-      continue-on-error: true
+      continue-on-error: false
