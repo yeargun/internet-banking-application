@@ -24,7 +24,7 @@ const baseQueryWithRedirect = async (args, api, extraOptions) => {
     api.dispatch(setUnauthorized(true));
     api.dispatch(clearJWTAccount());
   } else {
-    // api.dispatch(setUnauthorized(false));
+    api.dispatch(setUnauthorized(false));
   }
   return result;
 };

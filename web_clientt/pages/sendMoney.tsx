@@ -1,10 +1,11 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useGetAllAccountsMutation } from "features/account/accountApiSlice";
-import JSONPretty from "react-json-pretty";
 import { useSendMoneyMutation } from "features/transaction/transactionApiSlice";
-import styles from "../styles/SendMoney.module.css";
 import { useRouter } from "next/router";
+import styles from "../styles/SendMoney.module.css";
+import JSONPretty from "react-json-pretty";
+// import Modal from "../components/Modal";
 
 const findAccountByIBAN = (accounts, IBAN) => {
   return accounts.find((account) => account.IBAN === IBAN);
@@ -20,6 +21,7 @@ function SendMoney() {
   const [amount, setAmount] = useState<number | undefined>();
   const [description, setDescription] = useState<string | undefined>();
   const [errorMessage, setErrorMessage] = useState("");
+  const [transactionRes, setTransactionRes] = useState();
   const router = useRouter();
 
   const [allAccounts, setAllAccounts] = useState([]);
@@ -29,7 +31,6 @@ function SendMoney() {
   async function fetchAllAccounts() {
     try {
       const res = await getAllAccounts().unwrap();
-      debugger;
       setAllAccounts((prevState) => res);
     } catch (err) {}
   }
@@ -68,14 +69,16 @@ function SendMoney() {
       return;
     }
     try {
-      await sendMoney({
+      const res = await sendMoney({
         fromIBAN: selectedIBAN,
         toIBAN: removeSpaces(toIBAN),
         amount,
         description,
       });
+      fetchAllAccounts();
+      setTransactionRes(res);
       //   setSelectedIBAN(undefined);
-      router.reload();
+      // router.reload();
     } catch (err) {
       if (!err?.originalStatus) {
         console.log("No Server Response");
@@ -105,6 +108,16 @@ function SendMoney() {
       <h5>Balance: {selectedAccount?.balance}</h5>
       <h5>Currency: {selectedAccount?.symbol || ""}</h5>
     </div>
+  );
+
+  const dialog1 = transactionRes && (
+    <>
+      <dialog open={true}>
+        <JSONPretty data={transactionRes} />
+        <button onClick={() => setTransactionRes(undefined)}>close</button>
+      </dialog>
+      <output></output>
+    </>
   );
 
   const fromAccountDropdown = (
@@ -184,6 +197,7 @@ function SendMoney() {
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
         <button className={styles.formButton}>Send Money</button>
       </form>
+      {dialog1}
     </>
   );
 }
